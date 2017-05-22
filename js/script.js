@@ -19,8 +19,9 @@ function get_doc(id){
             var data = {};
             data = decoder.decode(result.value, {stream: !result.done});
             document.getElementById("demo").innerHTML = data;
-            var converter = new showdown.Converter(),
-                html      = converter.makeHtml(data);
+            var converter = new showdown.Converter();
+            converter.setFlavor('allOn');
+            html      = converter.makeHtml(data);
             document.getElementById("demo").innerHTML = html;
     });
         }
