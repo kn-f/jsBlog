@@ -13,6 +13,7 @@ function get_doc(id){
     
     fetch(url,setOptions)
         .then(response => { if(response.ok){
+    /*      console.log(response.text());
         var reader = response.body.getReader();
         var decoder = new TextDecoder();
         reader.read().then(function(result){
@@ -22,16 +23,27 @@ function get_doc(id){
             var converter = new showdown.Converter();
             converter.setFlavor('allOn');
             html      = converter.makeHtml(data);
+            document.getElementById("demo").innerHTML = html;*/
+    //      console.log(response.text());
+          return response.text();
+      }})
+            .then(myText => {
+            var converter = new showdown.Converter();
+            converter.setFlavor('allOn');
+            html      = converter.makeHtml(myText);
             document.getElementById("demo").innerHTML = html;
+    
     });
-        }
-    else{
+//    });
+//        }
+/*    else{
         console.log("Response wast not ok");
     }
     })  .catch(error => {
         console.log("There is an error " + error.message);
     });
-    }
+    }*/
+}
 }
 
 function getQueryVariable(variable)
