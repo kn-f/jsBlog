@@ -1,10 +1,9 @@
 /* eslint-env browser*/
 function get_doc(id){
+    //const url = "https://onedrive.live.com/?authkey=%21AKHuor8rk7EXgwU&v=TextFileEditor&id=EE5622101E19E5A7%215828&cid=EE5622101E19E5A7&parId=root";
     const url = 'https://www.googleapis.com/drive/v3/files/'+id+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo';
     if(self.fetch){
     var setHeaders = new Headers();
- //   setHeaders.append('Authorization', 'Bearer ' + authToken.access_token);
- //   setHeaders.append('mimeType', "text/plain");
 
     var setOptions = {
         method: 'GET',
@@ -13,7 +12,7 @@ function get_doc(id){
     
     fetch(url,setOptions)
         .then(response => { if(response.ok){
-    /*      console.log(response.text());
+    /*    
         var reader = response.body.getReader();
         var decoder = new TextDecoder();
         reader.read().then(function(result){
@@ -26,24 +25,20 @@ function get_doc(id){
             document.getElementById("demo").innerHTML = html;*/
     //      console.log(response.text());
           return response.text();
-      }})
-            .then(myText => {
+      }
+    else{
+        console.log("Response wast not ok");
+    }
+    })  .then(myText => {
             var converter = new showdown.Converter();
             converter.setFlavor('allOn');
             html      = converter.makeHtml(myText);
             document.getElementById("demo").innerHTML = html;
     
-    });
-//    });
-//        }
-/*    else{
-        console.log("Response wast not ok");
-    }
-    })  .catch(error => {
+    })   .catch(error => {
         console.log("There is an error " + error.message);
     });
-    }*/
-}
+    }
 }
 
 function getQueryVariable(variable)
