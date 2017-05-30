@@ -1,0 +1,21 @@
+https://www.dropbox.com/s/2b99tssnd00au13/test.txt?dl=0
+
+<iframe src="https://onedrive.live.com/embed?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ" width="98" height="120" frameborder="0" scrolling="no"></iframe>
+
+https://1drv.ms/t/s!AqflGR4QIlburUSh7qK_K5OxF4MF
+
+https://graph.microsoft.com/v1.0/me/drive/items/s!AqflGR4QIlburUSh7qK_K5OxF4MF
+
+https://graph.microsoft.com/v1.0/shares/s!AqflGR4QIlburUSh7qK_K5OxF4MF
+https://graph.microsoft.com/v1.0/shares/u!aHR0cHM6Ly8xZHJ2Lm1zL3QvcyFBcWZsR1I0UUlsYnVyVVNoN3FLX0s1T3hGNE1G/root
+
+u!aHR0cHM6Ly8xZHJ2Lm1zL3QvcyFBcWZsR1I0UUlsYnVyVVNoN3FLX0s1T3hGNE1G
+u!aHR0cHM6Ly9vbmVkcml2ZS5saXZlLmNvbS9lbWJlZD9jaWQ9RUU1NjIyMTAxRTE5RTVBNyZyZXNpZD1FRTU2MjIxMDFFMTlFNUE3JTIxNTgyOCZhdXRoa2V5PUFEV1ZZUWJwSEhQeEpIUQ
+
+
+test-cors.org
+https://1drv.ms/t/s!AqflGR4QIlburUSh7qK_K5OxF4MF
+https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/shares_get
+
+
+https://msdn.microsoft.com/en-us/library/office/dn659726.aspx
