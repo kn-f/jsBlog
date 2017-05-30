@@ -21,11 +21,12 @@
     </head>
     <body>
         <div id="demo" class="container"></div>
-
         <script language="javascript">
             var pageId=getQueryVariable("pageId");
+            var service=getQueryVariable("service");
             if (pageId == false) {pageId = "15shNCte_Ur6AVG5gzUdtiI_D701D8YeGhv4c4nUoSpI";}
-            get_doc(pageId);
+            if (service == false) {service = "gdrive";}
+            get_doc(pageId, service);
         </script>
     </body>
 </html>

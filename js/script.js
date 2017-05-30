@@ -1,18 +1,40 @@
 /* eslint-env browser*/
-function get_doc(id){
-    //const url = "https://onedrive.live.com/?authkey=%21AKHuor8rk7EXgwU&v=TextFileEditor&id=EE5622101E19E5A7%215828&cid=EE5622101E19E5A7&parId=root";
-    const url = 'https://www.googleapis.com/drive/v3/files/'+id+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo';
+function get_doc(resourceId,serviceId){
+    
+    // ------------------
+    var encodedurl = "https://1drv.ms/t/s!AqflGR4QIlburUSh7qK_K5OxF4MF";
+    var b64url = btoa(encodedurl);
+    var trimurl = b64url.replace("/=+$/=","");
+    var cleanurl = trimurl.replace('/','_');
+    cleanurl = cleanurl.replace('+','-');
+    //var finalurl = "https://api.onedrive.com/v1.0/shares/u!" + cleanurl;
+    var finalurl = "https://graph.microsoft.com/v1.0/me/drive/items//s!AqflGR4QIlburUSh7qK_K5OxF4MF/content";
+    //finalurl = "https://onedrive.live.com/download?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ";
+    //finalurl="https://qvczka-sn3301.files.1drv.com/y4mP2hclae3_PjLGaUzM1vawuwnsME7yEzVSCfbitRAfIUOfanUrrn9l7lLa-R0SDgFjEJTft0cgtiAcK9RyusoEVfe3jbJ4UuiHOXCcZQHP5KpkI6Fu2U44YuIbD-aEUkUR_uS-cxgnIscqoyiSaFOsLrChEocqOQKINPMPvvgmK8PYjJiIJf7PkcKU6Pc3JCJ5-Rbdisl0ZhLitSjV4zp1Q/test.txt?download&psid=1";
+    
+    // ------------------
+    
+    var url = {};
+    url = {
+        "gdrive":   'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo',
+        "dropbox":  'https://dl.dropboxusercontent.com/s/'+resourceId,
+        "onedrive": finalurl
+    };
+    console.log(url[serviceId]);
     if(self.fetch){
     var setHeaders = new Headers();
+ //   setHeaders.append('Authorization', 'Bearer ' + authToken.access_token);
+ //   setHeaders.append('mimeType', "text/plain");
 
     var setOptions = {
         method: 'GET',
-        headers: setHeaders
+        headers: setHeaders,
+ //       redirect: 'follow'
+    //    mode: "no-cors"
     };
     
-    fetch(url,setOptions)
-        .then(response => { if(response.ok){
-    /*    
+    fetch(url[serviceId],setOptions)
+        .then(response => {if(response.ok){
         var reader = response.body.getReader();
         var decoder = new TextDecoder();
         reader.read().then(function(result){
@@ -22,20 +44,13 @@ function get_doc(id){
             var converter = new showdown.Converter();
             converter.setFlavor('allOn');
             html      = converter.makeHtml(data);
-            document.getElementById("demo").innerHTML = html;*/
-    //      console.log(response.text());
-          return response.text();
-      }
-    else{
-        console.log("Response wast not ok");
-    }
-    })  .then(myText => {
-            var converter = new showdown.Converter();
-            converter.setFlavor('allOn');
-            html      = converter.makeHtml(myText);
             document.getElementById("demo").innerHTML = html;
-    
-    })   .catch(error => {
+    });
+        }
+    else{
+        console.log("Response was not ok: " + response.body);
+    }
+    })  .catch(error => {
         console.log("There is an error " + error.message);
     });
     }
