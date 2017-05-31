@@ -20,6 +20,9 @@ function write_markdown(resourceId, serviceId ,position){
         case "onedrive":
             url = "https://cors-anywhere.herokuapp.com/" + 'https://onedrive.live.com/download?' + atob(resourceId);
             break;
+        case "local":
+            url = resourceId;
+            break;
         default:
             console.log("Service not identified:" + serviceId); // TODO redirect to a generic error page
     }
