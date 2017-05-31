@@ -9,7 +9,7 @@ function get_doc(resourceId,serviceId){
     cleanurl = cleanurl.replace('+','-');
     //var finalurl = "https://api.onedrive.com/v1.0/shares/u!" + cleanurl;
     var finalurl = "https://graph.microsoft.com/v1.0/me/drive/items//s!AqflGR4QIlburUSh7qK_K5OxF4MF/content";
-    //finalurl = "https://onedrive.live.com/download?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ";
+    finalurl = "https://onedrive.live.com/download?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ";
     //finalurl="https://qvczka-sn3301.files.1drv.com/y4mP2hclae3_PjLGaUzM1vawuwnsME7yEzVSCfbitRAfIUOfanUrrn9l7lLa-R0SDgFjEJTft0cgtiAcK9RyusoEVfe3jbJ4UuiHOXCcZQHP5KpkI6Fu2U44YuIbD-aEUkUR_uS-cxgnIscqoyiSaFOsLrChEocqOQKINPMPvvgmK8PYjJiIJf7PkcKU6Pc3JCJ5-Rbdisl0ZhLitSjV4zp1Q/test.txt?download&psid=1";
     
     // ------------------
@@ -30,7 +30,7 @@ function get_doc(resourceId,serviceId){
         method: 'GET',
         headers: setHeaders,
  //       redirect: 'follow'
-    //    mode: "no-cors"
+       mode: "no-cors"
     };
     
     fetch(url[serviceId],setOptions)
@@ -49,6 +49,7 @@ function get_doc(resourceId,serviceId){
         }
     else{
         console.log("Response was not ok: " + response.body);
+                    console.log(response.headers.get("Content-Type"));
     }
     })  .catch(error => {
         console.log("There is an error " + error.message);
