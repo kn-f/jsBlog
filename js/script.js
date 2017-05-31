@@ -56,6 +56,29 @@ function get_doc(resourceId,serviceId){
     }
 }
 
+function get_doc_new(resourceId,serviceId) {
+    var url = {};
+    url = {
+        "gdrive":   'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo',
+        "dropbox":  'https://dl.dropboxusercontent.com/s/'+resourceId,
+        "onedrive": 'https://onedrive.live.com/download?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ'
+    };
+    console.log(url[serviceId]);
+  
+    $.get( url[serviceId])
+        .done(function(data, textStatus, jqXHR) {
+            if(textStatus == "success") {
+                var converter = new showdown.Converter();
+                converter.setFlavor('allOn');
+                html  = converter.makeHtml( data);
+                document.getElementById("demo").innerHTML =html;  
+            }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+           console.log("There is an error "+ errorThrown );
+        });
+}
+
 function getQueryVariable(variable)
 {
        var query = window.location.search.substring(1);
