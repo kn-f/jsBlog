@@ -1,83 +1,52 @@
 /* eslint-env browser*/
-function get_doc(resourceId,serviceId){
-    
-    // ------------------
-    var encodedurl = "https://1drv.ms/t/s!AqflGR4QIlburUSh7qK_K5OxF4MF";
-    var b64url = btoa(encodedurl);
-    var trimurl = b64url.replace("/=+$/=","");
-    var cleanurl = trimurl.replace('/','_');
-    cleanurl = cleanurl.replace('+','-');
-    //var finalurl = "https://api.onedrive.com/v1.0/shares/u!" + cleanurl;
-    var finalurl = "https://graph.microsoft.com/v1.0/me/drive/items//s!AqflGR4QIlburUSh7qK_K5OxF4MF/content";
-    finalurl = "https://onedrive.live.com/download?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ";
-    //finalurl="https://qvczka-sn3301.files.1drv.com/y4mP2hclae3_PjLGaUzM1vawuwnsME7yEzVSCfbitRAfIUOfanUrrn9l7lLa-R0SDgFjEJTft0cgtiAcK9RyusoEVfe3jbJ4UuiHOXCcZQHP5KpkI6Fu2U44YuIbD-aEUkUR_uS-cxgnIscqoyiSaFOsLrChEocqOQKINPMPvvgmK8PYjJiIJf7PkcKU6Pc3JCJ5-Rbdisl0ZhLitSjV4zp1Q/test.txt?download&psid=1";
-    
-    // ------------------
-    
-    var url = {};
-    url = {
-        "gdrive":   'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo',
-        "dropbox":  'https://dl.dropboxusercontent.com/s/'+resourceId,
-        "onedrive": finalurl
-    };
-    console.log(url[serviceId]);
-    if(self.fetch){
-    var setHeaders = new Headers();
- //   setHeaders.append('Authorization', 'Bearer ' + authToken.access_token);
- //   setHeaders.append('mimeType', "text/plain");
+const DEFAULT_RESOURCE = "15shNCte_Ur6AVG5gzUdtiI_D701D8YeGhv4c4nUoSpI";
+const DEFAULT_SERVICE = "gdrive";
+const DEFAULT_POSITION = "demo";
+const DEFAULT_CSS = "darkly";
 
-    var setOptions = {
-        method: 'GET',
-        headers: setHeaders,
- //       redirect: 'follow'
-       mode: "no-cors"
-    };
+function write_markdown(resourceId, serviceId ,position){
+    resourceId = resourceId || DEFAULT_RESOURCE; //mandatory solution - not using = in the function definition - as if param is null, will not end to default direction
+    serviceId = serviceId || DEFAULT_SERVICE;
+    position = position || DEFAULT_POSITION;
+    var url = "";
     
-    fetch(url[serviceId],setOptions)
-        .then(response => {if(response.ok){
-        var reader = response.body.getReader();
-        var decoder = new TextDecoder();
-        reader.read().then(function(result){
-            var data = {};
-            data = decoder.decode(result.value, {stream: !result.done});
-            document.getElementById("demo").innerHTML = data;
-            var converter = new showdown.Converter();
-            converter.setFlavor('allOn');
-            html      = converter.makeHtml(data);
-            document.getElementById("demo").innerHTML = html;
-    });
-        }
-    else{
-        console.log("Response was not ok: " + response.body);
-                    console.log(response.headers.get("Content-Type"));
+    switch(serviceId) {
+        case "gdrive":
+            url = 'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo';
+            break;
+        case "dropbox":
+            url = 'https://dl.dropboxusercontent.com/s/'+ resourceId;
+            break;    
+        case "onedrive":
+            url = "https://cors-anywhere.herokuapp.com/" + 'https://onedrive.live.com/download?' + atob(resourceId);
+            break;
+        default:
+            console.log("Service not identified:" + serviceId); // TODO redirect to a generic error page
     }
-    })  .catch(error => {
-        console.log("There is an error " + error.message);
-    });
+    
+    console.log(url); // DEBUG
+    if(self.fetch){
+        var setHeaders = new Headers();
+
+        var setOptions = {
+            method: 'GET',
+            headers: setHeaders,
+        };
+    
+        fetch(url,setOptions)
+            .then(response => response.text() )
+            .then(text => markdown2HTML(text,position))
+            .catch(error => {
+            console.log("There is an error " + error.message);
+        });
     }
 }
 
-function get_doc_new(resourceId,serviceId) {
-    var url = {};
-    url = {
-        "gdrive":   'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo',
-        "dropbox":  'https://dl.dropboxusercontent.com/s/'+resourceId,
-        "onedrive": 'https://onedrive.live.com/download?cid=EE5622101E19E5A7&resid=EE5622101E19E5A7%215828&authkey=ADWVYQbpHHPxJHQ'
-    };
-    console.log(url[serviceId]);
-  
-    $.get( url[serviceId])
-        .done(function(data, textStatus, jqXHR) {
-            if(textStatus == "success") {
-                var converter = new showdown.Converter();
-                converter.setFlavor('allOn');
-                html  = converter.makeHtml( data);
-                document.getElementById("demo").innerHTML =html;  
-            }
-        })
-        .fail(function(jqXHR, textStatus, errorThrown) {
-           console.log("There is an error "+ errorThrown );
-        });
+function markdown2HTML(text,position="demo") {
+    var converter = new showdown.Converter();
+    converter.setFlavor('allOn');
+    html      = converter.makeHtml(text);
+    document.getElementById(position).innerHTML = html;    
 }
 
 function getQueryVariable(variable)
@@ -89,4 +58,15 @@ function getQueryVariable(variable)
                if(pair[0] == variable){return pair[1];}
        }
        return(false);
+}
+
+function setCSS(cssName) {
+    cssName = cssName || DEFAULT_CSS;
+    var link = document.createElement( "link" );
+    link.href = "https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/"+cssName+"/bootstrap.min.css";
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.media = "screen,print";
+
+    document.getElementsByTagName( "head" )[0].appendChild( link );
 }

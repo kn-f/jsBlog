@@ -19,3 +19,17 @@ https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/api/shares_g
 
 
 https://msdn.microsoft.com/en-us/library/office/dn659726.aspx
+
+    // ------------------
+    console.log(resourceId);
+    var decodedResourceId = atob(resourceId);
+    /* var encodedurl = "https://1drv.ms/t/s!AqflGR4QIlburUSh7qK_K5OxF4MF";
+    var b64url = btoa(encodedurl);
+    var trimurl = b64url.replace("/=+$/=","");
+    var cleanurl = trimurl.replace('/','_');
+    cleanurl = cleanurl.replace('+','-');
+    var finalurl = "https://api.onedrive.com/v1.0/shares/u!" + cleanurl + "/content";*/
+    //finalurl="https://qvczka-sn3301.files.1drv.com/y4mP2hclae3_PjLGaUzM1vawuwnsME7yEzVSCfbitRAfIUOfanUrrn9l7lLa-R0SDgFjEJTft0cgtiAcK9RyusoEVfe3jbJ4UuiHOXCcZQHP5KpkI6Fu2U44YuIbD-aEUkUR_uS-cxgnIscqoyiSaFOsLrChEocqOQKINPMPvvgmK8PYjJiIJf7PkcKU6Pc3JCJ5-Rbdisl0ZhLitSjV4zp1Q/test.txt?download&psid=1";
+    var finalurl = "https://cors-anywhere.herokuapp.com/"+ 'https://onedrive.live.com/download?'+decodedResourceId;
+    
+    // ------------------
