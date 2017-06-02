@@ -43,3 +43,6 @@ If it works you can then share the obtained URL with anyone and they'll be able 
     - auto index creator
     - set of templates
     - online editor 
+## Support libraries / projects
+- [CORS Anywhere](https://github.com/Rob--W/cors-anywhere/#documentation)
+- [Showdown](https://github.com/showdownjs/showdown)
