@@ -10,38 +10,40 @@ function write_markdown(resourceId, serviceId ,position){
     position = position || DEFAULT_POSITION;
     var url = "";
     
-    switch(serviceId) {
-        case "gdrive":
-            url = 'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo';
-            break;
-        case "dropbox":
-            url = 'https://dl.dropboxusercontent.com/s/'+ resourceId;
-            break;    
-        case "onedrive":
-            url = "https://cors-anywhere.herokuapp.com/" + 'https://onedrive.live.com/download?' + atob(resourceId);
-            break;
-        case "local":
-            url = resourceId;
-            break;
-        default:
-            console.log("Service not identified:" + serviceId); // TODO redirect to a generic error page
-    }
-    
-    console.log(url); // DEBUG
-    if(self.fetch){
-        var setHeaders = new Headers();
+    try {
+        switch(serviceId) {
+            case "gdrive":
+                url = 'https://www.googleapis.com/drive/v3/files/'+resourceId+'/export?mimeType=text%2Fplain&key=AIzaSyBzLspgUOJBw0KJp8PzJD8vd_9G4QNOtzo';
+                break;
+            case "dropbox":
+                url = 'https://dl.dropboxusercontent.com/s/'+ resourceId;
+                break;    
+            case "onedrive":
+                url = "https://cors-anywhere.herokuapp.com/" + 'https://onedrive.live.com/download?' + atob(resourceId);
+                break;
+            case "local":
+                url = resourceId;
+                break;
+            default:
+                console.log("Service not identified:" + serviceId); // TODO redirect to a generic error page
+        }
 
-        var setOptions = {
-            method: 'GET',
-            headers: setHeaders,
-        };
-    
-        fetch(url,setOptions)
-            .then(response => response.text() )
-            .then(text => markdown2HTML(text,position))
-            .catch(error => {
-            console.log("There is an error " + error.message);
-        });
+        console.log(url); // DEBUG
+        if(self.fetch){
+            var setHeaders = new Headers();
+
+            var setOptions = {
+                method: 'GET',
+                headers: setHeaders,
+            };
+
+            fetch(url,setOptions)
+                .then(response => response.text() )
+                .then(text => markdown2HTML(text,position));
+        }
+    }
+    catch (e) {
+                console.log("There is an error " + e.message)
     }
 }
 
